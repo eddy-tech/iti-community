@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { RoomCreateModalComponent } from './../room-create-modal/room-create-modal.component';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { FeedStore } from 'src/modules/feed/feed.store';
@@ -17,16 +18,38 @@ export class RoomMenuComponent implements OnInit {
 
   rooms: Room[];
 
-  constructor(private feedStore: FeedStore, private queries: RoomQueries, private roomSocketService: RoomSocketService) {
+  active: boolean;
+
+  @ViewChild('modal')
+  modal : RoomCreateModalComponent;
+
+  constructor(private feedStore: FeedStore, private queries: RoomQueries, private roomSocketService: RoomSocketService,
+    private router: Router) {
     this.roomId$ = feedStore.roomId$;
     this.rooms = [];
   }
 
   async ngOnInit() {
     this.rooms = await this.queries.getAll();
+    if(this.rooms.length > 0 && this.feedStore.value.roomId ){
+     await this.router.navigate([`/${this.rooms[0].id}`])
+    }
+    this.rooms.forEach((roomsStorage)=>{
+      if(roomsStorage.id) localStorage.setItem('Last_Room', String(roomsStorage.name))
+    })
+
   }
 
-  goToRoom(room: Room) {
+  // ngAfterViewInit(): void {
+  //   //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+  //   //Add 'implements AfterViewInit' to the class.
+  //   this.modal.open();
+  // }
+
+    goToRoom(room: Room) {
     // TODO naviguer vers app/[id de la room]
-  }
+    this.router.navigate(['app', room.id])
+    // console.log(room.id);
+
+    }
 }

@@ -37,7 +37,7 @@ registerLocaleData(fr);
     SplashScreenLayoutComponent,
     AppLayoutComponent,
     RegistrationPageComponent,
-    RoomPageComponent
+    RoomPageComponent,
   ],
   imports: [
     BrowserModule,

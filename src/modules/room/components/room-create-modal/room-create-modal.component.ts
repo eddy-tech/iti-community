@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { FeedStore } from './../../../feed/feed.store';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { RoomType } from '../../room.model';
 import { RoomService } from '../../services/room.service';
@@ -18,6 +19,7 @@ export class RoomCreateModalComponent implements OnInit {
   form: NgForm;
 
   isVisible: boolean = false;
+
   model = new CreateRoomFormModel();
 
   constructor(private roomService: RoomService) {
@@ -30,6 +32,7 @@ export class RoomCreateModalComponent implements OnInit {
   async onOk() {
     if (this.form.form.valid) {
       // TODO invoquer la méthode create du RoomService
+      await this.roomService.create(this.model.name, this.model.type);
       this.close();
     }
   }

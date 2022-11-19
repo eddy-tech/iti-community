@@ -57,7 +57,7 @@ Au clic sur le bouton "S'enregistrer", le formulaire va déclancher l'évenement
 <form nz-form nzLayout="vertical" #f="ngForm" (ngSubmit)="submit()">
 ```
 
-Le inputs son créés à partir du composant `nz-form-item` de la ui library [ng-zorro](https://ng.ant.design/components/input/en)
+Les inputs sont créés à partir du composant `nz-form-item` de la ui library [ng-zorro](https://ng.ant.design/components/input/en)
 
 #### Level I
     
@@ -167,7 +167,7 @@ Un utilisateur doit en amont avoir sélectionné une room pour pouvoir y poster 
 ### Level I
 
 1. Afficher la photo de l'utilisateur connecté
-2. Pouvoir éditer le profile de l'utilisateur: son username et sa photo en cliquant sur le bouton dédié
+2. Pouvoir éditer le profile de l'utilisateur: son username et sa photo en cliquant sur le bouton dédié 
 3. Pouvoir se déconnecter de l'application encliquant sur le bonton rouge de logout. Rediriger l'utilisateur vers le /splash/login
 
 ### Notifications

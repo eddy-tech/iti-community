@@ -1,3 +1,4 @@
+import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -60,7 +61,7 @@ export class UserProfileModalComponent implements OnInit {
   isVisible: boolean = false;
   model: UserProfileForm;
 
-  constructor(private userService: UserService, private sanitizer: DomSanitizer) {
+  constructor(private userService: UserService, private sanitizer: DomSanitizer, private message:NzMessageService) {
 
   }
 
@@ -74,9 +75,17 @@ export class UserProfileModalComponent implements OnInit {
 
   async onOk() {
     // TODO vérifier si le formulaire est valide
+    if(this.form.form.valid){
+      this.message.success("Les données sont enregistrées avec succès");
+    }
 
     if (this.model.hasChanged()) {
       // TODO mettre à jour l'utilisateur via le service
+      await this.userService.update({
+        id: this.model.id,
+        username: this.model.username,
+        photo: this.model.file
+      });
     }
 
     this.close();

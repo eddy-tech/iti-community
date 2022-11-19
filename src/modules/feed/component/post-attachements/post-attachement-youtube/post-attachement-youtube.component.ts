@@ -17,6 +17,7 @@ export class PostAttachementYoutubeComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) { }
 
+
   get url() {
     return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.element.videoId);
   }

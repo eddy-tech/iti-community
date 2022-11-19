@@ -27,6 +27,7 @@ export class FeedInputComponent {
    * Staging file to upload
    */
   file: File | null = null;
+  // file: File | undefined = undefined;
 
   currentMention?: RegExpMatchArray;
 
@@ -128,9 +129,10 @@ export class FeedInputComponent {
     if (!this.message && !this.file) {
       return;
     }
-
     // TODO émettre  l'évènement "messageSent" via la méthode fireMessageSent
+    this.fireMessageSent();
     // TODO vider la zone de saise avec la méthode clear
+    this.clear();
   }
 
   /**
@@ -146,6 +148,11 @@ export class FeedInputComponent {
    */
   fireMessageSent() {
     // TODO émettre l'évènement "messageSent"
+    this.messageSent.emit({
+      message:this.message,
+      date: new Date(),
+      file: this.file || undefined
+    });
   }
 
   /**

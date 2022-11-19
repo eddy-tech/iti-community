@@ -21,11 +21,22 @@ export class PostComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
   }
 
+  get text(){
+    return this.post.message.text.content;
+  }
+
   ngAfterViewInit() {
     this.anchor.nativeElement.scrollIntoView();
   }
 
   async like() {
     // TODO like du post
+    if(!this.post.liked){
+      await this.postService.like(this.post)
+      this.post.liked = true
+      return true
+    } else {
+      return false
+    }
   }
 }

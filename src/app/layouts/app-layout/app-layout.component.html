@@ -1,7 +1,20 @@
 <div class="app-layout">
   <div class="panel-drawer" [ngClass]="{opened: showDrawer}">
     <!-- Afficher la liste des notifications -->
+    <ul *ngFor="let notif of notifications" class="puce">
+      <li>{{notif.payload.user.username}}</li>
+      <li>{{notif.subject}}</li>
+      <li><img [src]="notif.payload.user.photoUrl"/></li>
+      <li>{{notif.timestamp | date: 'shortTime'}}</li>
+    </ul>
   </div>
+  <ng-template let-notifications="data">
+    <li>{{notifications.payload.user.username}}</li>
+    <li>{{notifications.subject}}</li>
+    <li><img [src]="notifications.payload.user.photoUrl"/></li>
+    <li>{{notifications.timestamp | date: 'shortTime'}}</li>
+  </ng-template>
+
   <div class="app-layout-panel-left">
     <div class="panel-head">
       <app-user-widget (toggleNotifications)="onToggleNotifications()"></app-user-widget>

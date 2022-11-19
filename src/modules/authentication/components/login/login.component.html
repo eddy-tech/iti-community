@@ -1,33 +1,47 @@
 <div class="login">
-  <form nz-form nzLayout="vertical" #f="ngForm" (submit)="submit()">
+  <form novalidate nz-form nzLayout="vertical" #f="ngForm" (submit)="submit(f.value)">
     <nz-form-item>
       <nz-form-label nzFor="username">Username</nz-form-label>
-      <nz-form-control>
+      <nz-form-control nzErrorTip="Veuillez renseigner votre nom d'utilisateur">
+        <input class="ant-input" type="text" name="username" id="username" [(ngModel)]="model.username" #username= "ngModel"
+        [ngClass]="{'is-invalid' : password.touched && !password.valid}"  required minlength="4">
+        <div>
+
+        </div>
+        <!-- <div class="invalid-feedback">
+          <span *ngIf="username.errors" style="color:red;"> Veuillez renseigner votre nom d'utilisateur</span>
+        </div> -->
         <!--
           TODO Ajouter l'input pour username avec le data-binding approprié
-          <input class="ant-input" type="text" name="username" id="username" #username="ngModel">
+          #username="ngModel"
          -->
-
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzFor="password">Mot de passe</nz-form-label>
-      <nz-form-control>
+      <nz-form-control nzErrorTip="Veuillez renseigner votre mot de passe">
+        <input class="ant-input" type="password" name="password" id="password" [(ngModel)]="model.password" #password="ngModel"
+        [ngClass]="{'is-invalid' : password.touched && !password.valid}" required minlength="7">
+        <!-- <div class="invalid-feedback">
+          <span *ngIf="password.errors" style="color: red;"> Veuillez renseigner votre mot de passe</span>
+        </div> -->
         <!--
           TODO Ajouter l'input pour password avec le data-binding approprié
-          <input class="ant-input" type="password" name="password" id="password" #password="ngModel">
+          #password="ngModel"
          -->
       </nz-form-control>
+
     </nz-form-item>
     <nz-form-item>
       <nz-form-control>
         <button class="login-button" type="submit" nz-button nzType="default" [disabled]="f.form.invalid"
-          (submit)="submit()">Connexion</button>
+          (submit)="submit(f.value)">Connexion</button>
       </nz-form-control>
     </nz-form-item>
   </form>
   <p class="divider">Pas encore enregistré ?</p>
 
   <!-- TODO Rediriger sur la page de login au clic sur le bouton -->
-  <button class="register-button" nz-button nzType="primary">Créer un compte</button>
+  <button class="register-button" nz-button nzType="primary" (click)="goToRegistration()">Créer un compte</button>
 </div>
+
