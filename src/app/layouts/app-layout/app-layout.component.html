@@ -2,17 +2,39 @@
   <div class="panel-drawer" [ngClass]="{opened: showDrawer}">
     <!-- Afficher la liste des notifications -->
     <ul *ngFor="let notif of notifications" class="puce">
-      <li>{{notif.payload.user.username}}</li>
-      <li>{{notif.subject}}</li>
-      <li><img [src]="notif.payload.user.photoUrl"/></li>
-      <li>{{notif.timestamp | date: 'shortTime'}}</li>
+      <ng-container *ngIf="notif.subject === 'new_user'" style="display: flex;">
+        <li>
+          {{notification.payload.user.username}} vient de s'inscrire dans cette sublime application.
+        </li>
+        <li>{{notif.timestamp | date: 'shortTime'}}</li>
+      </ng-container>
+      <ng-container *ngIf="notif.subject === 'post_liked'" style="display: flex;">
+        <li>
+          {{notification.payload.user.username}} vient de liker un post.
+        </li>
+        <li>{{notif.timestamp | date: 'shortTime'}}</li>
+      </ng-container>
+      <ng-container *ngIf="notif.subject === 'room_added'" style="display: flex;">
+        <li>
+          La room "{{notification.payload.room.name}}" vient d'être créer par {{notification.payload.user.username}}
+        </li>
+        <li>{{notif.timestamp | date: 'shortTime'}}</li>
+      </ng-container>
+      <li *ngIf="notif.payload.user.photoUrl">
+        <img [src]="notif.payload.user.photoUrl" [alt]="notif.payload.user.username">
+      </li>
+      <li *ngIf="!notif.payload.user.photoUrl">
+        <img src="https://i.pinimg.com/236x/64/1c/4a/641c4acc7b305df3eb11fc5a8941b0b6.jpg" alt="user default">
+      </li>
     </ul>
   </div>
-  <ng-template let-notifications="data">
-    <li>{{notifications.payload.user.username}}</li>
-    <li>{{notifications.subject}}</li>
-    <li><img [src]="notifications.payload.user.photoUrl"/></li>
-    <li>{{notifications.timestamp | date: 'shortTime'}}</li>
+  <ng-template let-notifications="data" class="puce">
+    <ng-container>
+      <li>{{notifications.subject}}</li>
+      <li>{{notifications.timestamp | date: 'shortTime'}}</li>
+    </ng-container>
+    <li><img [src]="notifications.payload.user.photoUrl" [alt]="notifications.payload.user.photoUrl"/></li>
+
   </ng-template>
 
   <div class="app-layout-panel-left">

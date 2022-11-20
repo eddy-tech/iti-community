@@ -28,4 +28,8 @@ export class NotificationService {
     await this.fetch();
   }
 
+  async checkNotificationPromise() {
+    return Notification.requestPermission()
+  }
+
 }

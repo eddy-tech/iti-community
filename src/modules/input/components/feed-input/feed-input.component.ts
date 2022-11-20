@@ -16,6 +16,8 @@ export class FeedInputComponent {
   @ViewChild(NzPopoverDirective)
   inputPopover: NzPopoverDirective;
 
+  mentionMatches: string[] = []
+
   /**
    * Hold the input message
    */
@@ -44,6 +46,7 @@ export class FeedInputComponent {
   chooseMention(user: User) {
     if (this.currentMention) {
       this.message = this.message.substr(0, this.currentMention.index! + 1) + user.username + this.message.substr(this.currentMention.index! + this.currentMention[1].length + 1) + " ";
+      this.mentionMatches.push(`@${user.username}`)
     }
     this.hideMentionList();
   }
@@ -111,6 +114,12 @@ export class FeedInputComponent {
    * @param e
    */
   onInputKeyUp(e: KeyboardEvent) {
+    const matchUsername = this.message.match(/@[A-Za-z0-9_-]*/i)!;
+    if(matchUsername?.[0]){
+      if(this.mentionMatches.includes(matchUsername[0])) return;
+      this.searchMentionedUsers(matchUsername[0]?.replace('@', '').toLowerCase());
+      this.showMentionList(matchUsername);
+    }
 
   }
 

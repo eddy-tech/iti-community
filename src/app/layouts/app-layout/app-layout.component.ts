@@ -40,20 +40,29 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     await this.notificationService.fetch()
     this.notificationStore.value$.subscribe( state => {
       this.notifications = state.notifications;
+      document.visibilityState === 'hidden' && this.pushNotification(this.notifications)
     })
 
-    console.log("Local:", this.notifications);
+  }
+
+  async pushNotification(notification: AnyNotification[]){
+    const permission = await this.notificationService.checkNotificationPromise()
+    if(permission === 'granted'){
+      notification.forEach((notif)=>{
+        this.nzNotificationService.template(
+         this.template!,
+         { nzData: notif,
+           nzCloseIcon: notif.payload.user.photoUrl || "https://i.pinimg.com/236x/64/1c/4a/641c4acc7b305df3eb11fc5a8941b0b6.jpg"
+         }
+        )
+       })
+    }
   }
 
 
   onToggleNotifications(): void {
     this.showDrawer = !this.showDrawer;
-    this.notifications.forEach((notification)=>{
-      this.nzNotificationService.template(
-       this.template!, {nzData: notification}
-      )
-     })
-
+    if(!this.showDrawer) this.notificationService.markAsViewed()
   }
 
   ngOnDestroy() {

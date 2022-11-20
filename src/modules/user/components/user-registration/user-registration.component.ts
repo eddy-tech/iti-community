@@ -39,7 +39,6 @@ export class UserRegistrationComponent implements OnInit {
 
 
   async submit(registerForm : NgForm) {
-    // console.log("Valeurs :", registerForm);
     // console.log("Mes biens :",this.model.username, this.model.password,this.model.confirmPassword );
 
 
